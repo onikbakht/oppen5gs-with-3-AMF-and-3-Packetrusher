@@ -1,15 +1,15 @@
 gnodeb:
   controlif:
-    ip: gnb.packetrusher.org
+    ip: gnb-1.packetrusher.org
     port: 38412
   dataif:
-    ip: gnb.packetrusher.org
+    ip: gnb-1.packetrusher.org
     port: 2152
   plmnlist:
-    mcc: "999"
-    mnc: "70"
+    mcc: "262"
+    mnc: "02"
     tac: "000001"
-    gnbid: "000008"
+    gnbid: "000001"
   slicesupportlist:
     sst: "01"
     sd: "000001"
@@ -23,8 +23,8 @@ ue:
   dnn: "internet"
   routingindicator: "0000"
   hplmn:
-    mcc: "001"
-    mnc: "01"
+    mcc: "262"
+    mnc: "02"
   snssai:
     sst: 01
     sd: "000001"
@@ -40,7 +40,7 @@ ue:
     nea3: false
 
 amfif:
-  - ip: amf.5gc.mnc070.mcc999.3gppnetwork.org
+  - ip: amf-1.5gc.mnc002.mcc262.3gppnetwork.org
     port: 38412
 logs:
   level: 4
