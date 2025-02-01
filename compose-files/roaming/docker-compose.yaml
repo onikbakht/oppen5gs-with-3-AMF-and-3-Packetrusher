@@ -79,6 +79,7 @@ services:
         - OPEN5GS_VERSION=${OPEN5GS_VERSION}
         - UBUNTU_VERSION=${UBUNTU_VERSION}
     command: "-c /etc/open5gs/custom/udr.yaml"
+    restart: unless-stopped
     networks:
       open5gs:
         aliases:
@@ -99,6 +100,7 @@ services:
         - OPEN5GS_VERSION=${OPEN5GS_VERSION}
         - UBUNTU_VERSION=${UBUNTU_VERSION}
     command: "-c /etc/open5gs/custom/sepp.yaml"
+    restart: unless-stopped
     networks:
       open5gs:
         aliases:
@@ -126,6 +128,85 @@ services:
       - source: v-nrf_config
         target: /etc/open5gs/custom/nrf.yaml
 
+  v-ausf:
+    container_name: v-ausf
+    image: "ausf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/ausf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/ausf.yaml"
+    networks:
+      open5gs:
+        aliases:
+          - ausf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-ausf_config
+        target: /etc/open5gs/custom/ausf.yaml
+    depends_on:
+      - v-nrf
+
+  v-nssf:
+    container_name: v-nssf
+    image: "nssf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/nssf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/nssf.yaml"
+    networks:
+      open5gs:
+        aliases:
+          - nssf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-nssf_config
+        target: /etc/open5gs/custom/nssf.yaml
+    depends_on:
+      - v-nrf
+
+  v-bsf:
+    container_name: v-bsf
+    image: "bsf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/bsf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/bsf.yaml"
+    networks:
+      open5gs:
+        aliases:
+          - bsf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-bsf_config
+        target: /etc/open5gs/custom/bsf.yaml
+    depends_on:
+      - v-nrf
+
+
+
+  v-pcf:
+    container_name: v-pcf
+    image: "pcf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/pcf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/pcf.yaml"
+    restart: unless-stopped
+    networks:
+      open5gs:
+        aliases:
+          - pcf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-pcf_config
+        target: /etc/open5gs/custom/pcf.yaml
+    depends_on:
+      - v-nrf
+
   v-amf-1:
     container_name: v-amf-1
     image: "amf:${OPEN5GS_VERSION}"
@@ -134,14 +215,14 @@ services:
       args:
         - OPEN5GS_VERSION=${OPEN5GS_VERSION}
         - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-amf.yaml"
+    command: "-c /etc/open5gs/custom/amf.yaml"
     networks:
       open5gs:
         aliases:
           - amf-1.5gc.mnc002.mcc262.3gppnetwork.org
     configs:
       - source: v-amf-1_config
-        target: /etc/open5gs/custom/v-amf.yaml
+        target: /etc/open5gs/custom/amf.yaml
     depends_on:
       - v-nrf
 
@@ -153,14 +234,14 @@ services:
       args:
         - OPEN5GS_VERSION=${OPEN5GS_VERSION}
         - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-amf.yaml"
+    command: "-c /etc/open5gs/custom/amf.yaml"
     networks:
       open5gs:
         aliases:
           - amf-2.5gc.mnc002.mcc262.3gppnetwork.org
     configs:
       - source: v-amf-2_config
-        target: /etc/open5gs/custom/v-amf.yaml
+        target: /etc/open5gs/custom/amf.yaml
     depends_on:
       - v-nrf
 
@@ -172,14 +253,75 @@ services:
       args:
         - OPEN5GS_VERSION=${OPEN5GS_VERSION}
         - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-amf.yaml"
+    command: "-c /etc/open5gs/custom/amf.yaml"
     networks:
       open5gs:
         aliases:
           - amf-3.5gc.mnc002.mcc262.3gppnetwork.org
     configs:
       - source: v-amf-3_config
-        target: /etc/open5gs/custom/v-amf.yaml
+        target: /etc/open5gs/custom/amf.yaml
+    depends_on:
+      - v-nrf
+
+  v-smf:
+    container_name: v-smf
+    image: "smf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/smf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/smf.yaml"
+    networks:
+      open5gs:
+        aliases:
+          - smf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-smf_config
+        target: /etc/open5gs/custom/smf.yaml
+    depends_on:
+      - v-nrf
+      - v-upf
+
+  v-upf:
+    container_name: v-upf
+    image: "upf:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/upf
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/upf.yaml"
+    networks:
+      open5gs:
+        aliases:
+          - upf.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-upf_config
+        target: /etc/open5gs/custom/upf.yaml
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+
+
+  v-sepp:
+    container_name: v-sepp
+    image: "sepp:${OPEN5GS_VERSION}"
+    build:
+      context: ../../images/sepp
+      args:
+        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: "-c /etc/open5gs/custom/sepp.yaml"
+    restart: unless-stopped
+    networks:
+      open5gs:
+        aliases:
+          - sepp.5gc.mnc002.mcc262.3gppnetwork.org
+    configs:
+      - source: v-sepp_config
+        target: /etc/open5gs/custom/sepp.yaml
     depends_on:
       - v-nrf
 
@@ -234,140 +376,8 @@ services:
     depends_on:
       - v-amf-3
 
-  v-ausf:
-    container_name: v-ausf
-    image: "ausf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/ausf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-ausf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - ausf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-ausf_config
-        target: /etc/open5gs/custom/v-ausf.yaml
-    depends_on:
-      - v-nrf
 
-  v-bsf:
-    container_name: v-bsf
-    image: "bsf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/bsf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-bsf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - bsf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-bsf_config
-        target: /etc/open5gs/custom/v-bsf.yaml
-    depends_on:
-      - v-nrf
 
-  v-nssf:
-    container_name: v-nssf
-    image: "nssf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/nssf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-nssf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - nssf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-nssf_config
-        target: /etc/open5gs/custom/v-nssf.yaml
-    depends_on:
-      - v-nrf
-
-  v-pcf:
-    container_name: v-pcf
-    image: "pcf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/pcf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-pcf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - pcf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-pcf_config
-        target: /etc/open5gs/custom/v-pcf.yaml
-    depends_on:
-      - v-nrf
-
-  v-sepp:
-    container_name: v-sepp
-    image: "sepp:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/sepp
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-sepp.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - sepp.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-sepp_config
-        target: /etc/open5gs/custom/v-sepp.yaml
-    depends_on:
-      - v-nrf
-
-  v-smf:
-    container_name: v-smf
-    image: "smf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/smf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-smf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - smf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-smf_config
-        target: /etc/open5gs/custom/v-smf.yaml
-    depends_on:
-      - v-nrf
-      - v-upf
-
-  v-upf:
-    container_name: v-upf
-    image: "upf:${OPEN5GS_VERSION}"
-    build:
-      context: ../../images/upf
-      args:
-        - OPEN5GS_VERSION=${OPEN5GS_VERSION}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
-    command: "-c /etc/open5gs/custom/v-upf.yaml"
-    networks:
-      open5gs:
-        aliases:
-          - upf.5gc.mnc002.mcc262.3gppnetwork.org
-    configs:
-      - source: v-upf_config
-        target: /etc/open5gs/custom/v-upf.yaml
-    privileged: true
-    cap_add:
-      - NET_ADMIN
 
 networks:
   open5gs:
@@ -402,6 +412,16 @@ configs:
     file: ../../configs/roaming/h-sepp.yaml
   v-nrf_config:
     file: ../../configs/roaming/v-nrf.yaml
+  v-ausf_config:
+    file: ../../configs/roaming/v-ausf.yaml
+  v-nssf_config:
+    file: ../../configs/roaming/v-nssf.yaml
+  v-bsf_config:
+    file: ../../configs/roaming/v-bsf.yaml
+  v-pcf_config:
+    file: ../../configs/roaming/v-pcf.yaml
+
+
   # v-amf configurations
   v-amf-1_config:
     file: ../../configs/roaming/v-amf-1.yaml
@@ -410,6 +430,14 @@ configs:
   v-amf-3_config:
     file: ../../configs/roaming/v-amf-3.yaml
 
+  v-smf_config:
+    file: ../../configs/roaming/v-smf.yaml
+  v-upf_config:
+    file: ../../configs/roaming/v-upf.yaml
+  v-sepp_config:
+    file: ../../configs/roaming/v-sepp.yaml
+
+
   # packetrusher configurations
   packetrusher-1_config:
     file: ../../configs/roaming/packetrusher-1.yaml
@@ -417,19 +445,12 @@ configs:
     file: ../../configs/roaming/packetrusher-2.yaml
   packetrusher-3_config:
     file: ../../configs/roaming/packetrusher-3.yaml
-  v-ausf_config:
-    file: ../../configs/roaming/v-ausf.yaml
-  v-bsf_config:
-    file: ../../configs/roaming/v-bsf.yaml
-  v-nssf_config:
-    file: ../../configs/roaming/v-nssf.yaml
-  v-pcf_config:
-    file: ../../configs/roaming/v-pcf.yaml
-  v-sepp_config:
-    file: ../../configs/roaming/v-sepp.yaml
-  v-smf_config:
-    file: ../../configs/roaming/v-smf.yaml
-  v-upf_config:
-    file: ../../configs/roaming/v-upf.yaml
+
+
+
+
+
+
+
     
 

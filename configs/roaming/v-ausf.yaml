@@ -1,7 +1,6 @@
 logger:
   file:
     path: /var/log/open5gs/ausf.log
-
 global:
 
 ausf:

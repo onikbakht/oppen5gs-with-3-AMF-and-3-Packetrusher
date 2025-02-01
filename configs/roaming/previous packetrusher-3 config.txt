@@ -17,10 +17,10 @@ gnodeb:
 ue: 
   # First UE
   msin: "1234567893"
-  key: "465B5CE8B199B49FAA5F0A2EE238A6BC"
-  opc: "E8ED289DEBA952E4283B54E88E6183CA"
+  key: "00000000000000000000000000000000"
+  opc: "00000000000000000000000000000000"
   amf: "8000"
-  sqn: "000000000000"
+  sqn: "00000000"
   dnn: "internet"
   routingindicator: "0000"
   hplmn:
@@ -45,7 +45,7 @@ ue:
   key2: "11111111111111111111111111111111"
   opc2: "11111111111111111111111111111111"
   amf2: "8000"
-  sqn2: "000000000001"
+  sqn2: "00000001"
   dnn2: "internet"
   routingindicator2: "0001"
   hplmn2:
@@ -70,7 +70,7 @@ ue:
   key3: "22222222222222222222222222222222"
   opc3: "22222222222222222222222222222222"
   amf3: "8000"
-  sqn3: "000000000002"
+  sqn3: "00000002"
   dnn3: "internet"
   routingindicator3: "0002"
   hplmn3:
@@ -89,7 +89,6 @@ ue:
     nea1: false
     nea2: true
     nea3: false
-
 
 
 amfif:

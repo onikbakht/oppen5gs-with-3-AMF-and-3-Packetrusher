@@ -15,29 +15,32 @@ gnodeb:
     sd: "000001"
 
 ue:
-  msin: "1234567892"
-  key: "00000000000000000000000000000000"
-  opc: "00000000000000000000000000000000"
-  amf: "8000"
-  sqn: "00000000"
-  dnn: "internet"
-  routingindicator: "0000"
-  hplmn:
-    mcc: "262"
-    mnc: "02"
-  snssai:
-    sst: 01
-    sd: "000001"
-  integrity:
-    nia0: false
-    nia1: false
-    nia2: true
-    nia3: false
-  ciphering:
-    nea0: true
-    nea1: false
-    nea2: true
-    nea3: false
+  - msin: "1234567893"
+    key: "22222222222222222222222222222222"
+    opc: "22222222222222222222222222222222"
+    amf: "8000"
+    sqn: "00000002"
+    dnn: "internet"
+    routingindicator: "0002"
+    hplmn:
+      mcc: "262"
+      mnc: "02"
+    snssai:
+      sst: 01
+      sd: "000003"
+  - msin: "1234567894"
+    key: "33333333333333333333333333333333"
+    opc: "33333333333333333333333333333333"
+    amf: "8000"
+    sqn: "00000003"
+    dnn: "internet"
+    routingindicator: "0003"
+    hplmn:
+      mcc: "262"
+      mnc: "02"
+    snssai:
+      sst: 01
+      sd: "000004"
 
 amfif:
   - ip: amf-2.5gc.mnc002.mcc262.3gppnetwork.org
