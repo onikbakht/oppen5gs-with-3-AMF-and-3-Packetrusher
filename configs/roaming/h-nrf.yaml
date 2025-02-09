@@ -8,7 +8,7 @@ nrf:
   serving:
     - plmn_id:
         mcc: 262
-        mnc: 003
+        mnc: 03
   sbi:
     server:
       - address: nrf.5gc.mnc003.mcc262.3gppnetwork.org
